@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <style>
-body{font-family:sans-serif;margin:0}
-#bar{background:#ddd;padding:8px}
+body{font-family:sans-serif;margin:0;padding:0}
+#bar{background:#ddd;padding:8px;display:flex;gap:8px;align-items:center}
 #files{padding:10px}
 .item{padding:5px;cursor:pointer;border-radius:6px}
 .item:hover{background:#eee}
 .folder{font-weight:bold}
+.selected{background:#cce5ff}
 </style>
 </head>
 <body>
@@ -18,58 +19,125 @@ body{font-family:sans-serif;margin:0}
 <button onclick="newFile()">Nuovo File</button>
 <button onclick="renameItem()">Rinomina</button>
 <button onclick="deleteItem()">Elimina</button>
-<span id="path"></span>
+<span id="path" style="margin-left:10px;"></span>
 </div>
 
 <div id="files"></div>
 
 <script>
-let disk={
-name:"Disco",
-type:"folder",
-protected:true,
-children:[
-{
-name:"System",
-type:"folder",
-protected:true,
-children:[
-{name:"window.js",type:"file"},
-]
-},
-{
-
-}
-]
+// Disco virtuale
+let disk = {
+  name:"Disco",
+  type:"folder",
+  protected:true,
+  children:[
+    {
+      name:"System",
+      type:"folder",
+      protected:true,
+      children:[
+        {name:"window.js",type:"file"}
+      ]
+    },
+    {
+      name:"Apps",
+      type:"folder",
+      children:[
+        {name:"browser.html",type:"file"},
+        {name:"calculator.html",type:"file"},
+        {name:"clock.html",type:"file"},
+        {name:"dice.html",type:"file"},
+        {name:"files.html",type:"file"},
+        {name:"music.html",type:"file"},
+        {name:"notes.html",type:"file"},
+        {name:"paint.html",type:"file"},
+        {name:"settings.html",type:"file"},
+        {name:"terminal.html",type:"file"}
+      ]
+    }
+  ]
 };
 
-let current=disk;
-let selected=null;
-let his{
-name:"Apps",
-type:"folder",
-children:[
-{name:"browser.html",type:"file"},
-{name:"calculator.html",type:"file"},
-{name:"clock.html",type:"file"},
-{name:"dice.html",type:"file"},
-{name:"files.html",type:"file"},
-{name:"music.html",type:"file"},
-{name:"notes.html",type:"file"},
-{name:"paint.html",type:"file"},
-{name:"settings.html",type:"file"},
-{name:"terminal.html",type:"file"}
-]
+let current = disk;
+let selected = null;
+let history = [];
+
+// Funzione di rendering
+function render() {
+  const container = document.getElementById("files");
+  container.innerHTML = "";
+  document.getElementById("path").textContent = "/" + history.map(f=>f.name).join("/") + (history.length>0?"/":"") + current.name;
+
+  current.children?.forEach(item=>{
+    let div = document.createElement("div");
+    div.className = "item " + item.type + (item.type==="folder"?" folder":"");
+    div.textContent = (item.type==="folder"?"📁 ":"📄 ") + item.name;
+
+    div.onclick = ()=>{
+      selected = item;
+      document.querySelectorAll(".item").forEach(e=>e.classList.remove("selected"));
+      div.classList.add("selected");
+    };
+
+    div.ondblclick = ()=>{
+      if(item.type==="folder"){
+        history.push(current);
+        current = item;
+        selected = null;
+        render();
+      }
+    };
+
+    container.appendChild(div);
+  });
 }
 
-function render(){
-files.innerHTML="";
-path.textContent="/"+history.map(f=>f.name).join("/");
+// Funzioni di gestione
+function newFolder(){
+  let name = prompt("Nome cartella:");
+  if(!name) return;
+  current.children.push({name,type:"folder",children:[]});
+  render();
+}
 
-current.children?.forEach(item=>{
-let div=document.createElement("div");
-div.className="item "+item.type;
-div.textContent=(item.type=="folder"?"📁 ":"📄 ")+item.name;
+function newFile(){
+  let name = prompt("Nome file:");
+  if(!name) return;
+  current.children.push({name,type:"file"});
+  render();
+}
+
+function renameItem(){
+  if(!selected) return alert("Seleziona un file o cartella");
+  if(selected.protected) return alert("Protetto!");
+  let n = prompt("Nuovo nome:",selected.name);
+  if(n) selected.name = n;
+  render();
+}
+
+function deleteItem(){
+  if(!selected) return alert("Seleziona un file o cartella");
+  if(selected.protected) return alert("Cartella protetta!");
+  current.children = current.children.filter(i=>i!==selected);
+  selected = null;
+  render();
+}
+
+// Torna indietro con Backspace
+document.body.onkeydown = e=>{
+  if(e.key==="Backspace" && history.length){
+    current = history.pop();
+    selected = null;
+    render();
+  }
+};
+
+// Primo render
+render();
+</script>
+
+</body>
+</html>div.textContent=(item.type=="folder"?"📁 ":"📄 ")+item.name;
 
 div.onclick=()=>{
 selected=item;
