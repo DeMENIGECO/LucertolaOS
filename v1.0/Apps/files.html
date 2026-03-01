@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <style>
 body{font-family:sans-serif;margin:0;padding:0}
-#bar{background:#ddd;padding:8px;display:flex;gap:8px;align-items:center}
+#bar {
+  background:#ccc;
+  padding:8px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+}
+#bar button {
+  background:#fff;
+  border:1px solid #999;
+  padding:4px 8px;
+  cursor:pointer;
+  font-size:14px;
+}
+#bar button:hover {
+  background:#eee;
+}
 #files{padding:10px}
 .item{padding:5px;cursor:pointer;border-radius:6px}
 .item:hover{background:#eee}
@@ -16,19 +33,16 @@ body{font-family:sans-serif;margin:0;padding:0}
 
 <div id="bar">
 <button onclick="goBack()">⬅ Indietro</button>
-<button onclick="newFolder()">Nuova Cartella</button>
-<button onclick="newFile()">Nuovo File</button>
-<button onclick="renameItem()">Rinomina</button>
-<button onclick="deleteItem()">Elimina</button>
+<button onclick="newFolder()">📂 Nuova Cartella</button>
+<button onclick="newFile()">📄 Nuovo File</button>
+<button onclick="renameItem()">✏️ Rinomina</button>
+<button onclick="deleteItem()">🗑 Elimina</button>
 <span id="path" style="margin-left:10px;"></span>
 </div>
 
 <div id="files"></div>
 
 <script>
-// Debug
-console.log("Script File Explorer caricato");
-
 // Disco virtuale
 let disk = {
   name:"Disco",
@@ -57,7 +71,6 @@ let history = [];
 
 // Funzione di rendering
 function render() {
-  console.log("Render chiamato, current=",current.name);
   const container = document.getElementById("files");
   container.innerHTML = "";
   document.getElementById("path").textContent = "/" + history.map(f=>f.name).join("/") + (history.length>0?"/":"") + current.name;
@@ -92,10 +105,32 @@ function render() {
 }
 
 // Funzioni gestione
-function newFolder(){ let name=prompt("Nome cartella:"); if(!name) return; current.children.push({name,type:"folder",children:[]}); render(); }
-function newFile(){ let name=prompt("Nome file:"); if(!name) return; current.children.push({name,type:"file"}); render(); }
-function renameItem(){ if(!selected) return alert("Seleziona file"); if(selected.protected) return alert("Protetto!"); let n=prompt("Nuovo nome:",selected.name); if(n) selected.name=n; render(); }
-function deleteItem(){ if(!selected) return alert("Seleziona file"); if(selected.protected) return alert("Protetto!"); current.children=current.children.filter(i=>i!==selected); selected=null; render(); }
+function newFolder(){ 
+  let name = prompt("Nome cartella:");
+  if(!name) return; 
+  current.children.push({name,type:"folder",children:[]}); 
+  render(); 
+}
+function newFile(){ 
+  let name = prompt("Nome file:");
+  if(!name) return; 
+  current.children.push({name,type:"file"}); 
+  render(); 
+}
+function renameItem(){ 
+  if(!selected) return alert("Seleziona file o cartella"); 
+  if(selected.protected) return alert("Protetto!"); 
+  let n = prompt("Nuovo nome:",selected.name); 
+  if(n) selected.name=n; 
+  render(); 
+}
+function deleteItem(){ 
+  if(!selected) return alert("Seleziona file o cartella"); 
+  if(selected.protected) return alert("Protetto!"); 
+  current.children=current.children.filter(i=>i!==selected); 
+  selected=null; 
+  render(); 
+}
 function goBack(){
   if(history.length>0){
     current = history.pop();
@@ -104,15 +139,15 @@ function goBack(){
   } else {
     alert("Sei già alla radice del disco!");
   }
-      }
-  
+}
+
 // Torna indietro con Backspace
 document.body.onkeydown = e=>{
   if(e.key==="Backspace" && history.length){
     current=history.pop();
     selected=null;
     render();
-    e.preventDefault(); // blocca il comportamento del browser
+    e.preventDefault();
   }
 };
 
