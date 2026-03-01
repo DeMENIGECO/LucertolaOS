@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>LucertolaOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
+/* BODY E LAYOUT */
 body {
   margin:0;
-  font-family:"Segoe UI",sans-serif;
-  background: linear-gradient(to bottom, #a8dadc, #457b9d);
+  font-family:"Inter", "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -15,19 +17,24 @@ body {
   color:white;
 }
 
+/* TITOLO */
 h1 {
   margin-top:50px;
-  font-size:40px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+  font-size:3rem;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  text-align:center;
 }
 
+/* INTRO */
 #intro {
   max-width:700px;
   text-align:center;
-  font-size:18px;
+  font-size:1.1rem;
   margin:20px;
+  line-height:1.6;
 }
 
+/* SEZIONE VERSIONI */
 #versions {
   display:flex;
   flex-wrap:wrap;
@@ -36,36 +43,41 @@ h1 {
   margin:40px;
 }
 
+/* CARD VERSIONE */
 .version-card {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border-radius:16px;
-  padding:20px;
-  width:180px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  border-radius:20px;
+  padding:25px;
+  width:200px;
   cursor:pointer;
-  transition: transform 0.2s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   text-align:center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 .version-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
 }
 
 .version-card h2 {
   margin:0;
-  font-size:20px;
+  font-size:1.5rem;
 }
 
 .version-card p {
-  font-size:14px;
-  margin-top:8px;
+  font-size:0.95rem;
+  margin-top:10px;
+  color: #eee;
 }
 
+/* FOOTER */
 footer {
   margin-top:auto;
   margin-bottom:20px;
-  font-size:14px;
-  opacity:0.8;
+  font-size:0.85rem;
+  opacity:0.7;
 }
 </style>
 </head>
@@ -73,7 +85,7 @@ footer {
 
 <h1>LucertolaOS</h1>
 <div id="intro">
-  Benvenuto in LucertolaOS, il sistema operativo virtuale MacOS-like completamente in HTML, CSS e JavaScript. 
+  Benvenuto in <strong>LucertolaOS</strong>, il sistema operativo virtuale MacOS-like completamente in HTML, CSS e JavaScript.<br>
   Qui puoi esplorare le versioni del sistema, aprire app e testare le funzionalità di File Explorer, Terminale, Browser e molto altro.
 </div>
 
@@ -82,6 +94,8 @@ footer {
     <h2>Versione 1.0</h2>
     <p>Prima versione stabile del sistema con File Explorer, Terminale e Dock funzionante.</p>
   </div>
+  <!-- Puoi aggiungere altre versioni qui -->
+  <!-- <div class="version-card" onclick="openVersion('v1.1')">...</div> -->
 </div>
 
 <footer>
@@ -89,9 +103,10 @@ footer {
 </footer>
 
 <script>
+// FUNZIONE PER APRIRE LE VERSIONI
 function openVersion(link){
-  // Template literal con backtick
-  window.location.href = `https://demenigeco.github.io/LucertolaOS/${link}/?repo;
+  // Link relativo alla sottocartella del repository
+  window.location.href = `https://demenigeco.github.io/LucertolaOS/${link}/`;
 }
 </script>
 
