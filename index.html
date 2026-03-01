@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>LucertolaOS</title>
+<style>
+body {
+  margin:0;
+  font-family:"Segoe UI",sans-serif;
+  background: linear-gradient(to bottom, #a8dadc, #457b9d);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-height:100vh;
+  color:white;
+}
+
+h1 {
+  margin-top:50px;
+  font-size:40px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+#intro {
+  max-width:700px;
+  text-align:center;
+  font-size:18px;
+  margin:20px;
+}
+
+#versions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+  margin:40px;
+}
+
+.version-card {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  border-radius:16px;
+  padding:20px;
+  width:180px;
+  cursor:pointer;
+  transition: transform 0.2s;
+  text-align:center;
+}
+
+.version-card:hover {
+  transform: scale(1.05);
+}
+
+.version-card h2 {
+  margin:0;
+  font-size:20px;
+}
+
+.version-card p {
+  font-size:14px;
+  margin-top:8px;
+}
+
+footer {
+  margin-top:auto;
+  margin-bottom:20px;
+  font-size:14px;
+  opacity:0.8;
+}
+</style>
+</head>
+<body>
+
+<h1>LucertolaOS</h1>
+<div id="intro">
+  Benvenuto in LucertolaOS, il sistema operativo virtuale MacOS-like completamente in HTML, CSS e JavaScript. 
+  Qui puoi esplorare le versioni del sistema, aprire app e testare le funzionalità di File Explorer, Terminale, Browser e molto altro.
+</div>
+
+<div id="versions">
+  <div class="version-card" onclick="openVersion('v1.0')">
+    <h2>Versione 1.0</h2>
+    <p>Prima versione stabile del sistema con File Explorer, Terminale e Dock funzionante.</p>
+  </div>
+</div>
+
+<footer>
+  © 2026 LucertolaOS
+</footer>
+
+<script>
+function openVersion(link){
+  window.location.href = 'demenigeco.github.io/${link}' ;
+}
+</script>
+
+</body>
+</html>
