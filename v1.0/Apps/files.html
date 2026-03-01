@@ -1,0 +1,11 @@
+<h2>File Viewer</h2>
+<input type="file" onchange="read(this.files[0])">
+<pre id="out"></pre>
+
+<script>
+function read(file){
+const r=new FileReader();
+r.onload=e=>out.textContent=e.target.result;
+r.readAsText(file);
+}
+</script>
