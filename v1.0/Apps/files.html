@@ -19,9 +19,7 @@ body{font-family:sans-serif;margin:0;padding:0}
   cursor:pointer;
   font-size:14px;
 }
-#bar button:hover {
-  background:#eee;
-}
+#bar button:hover { background:#eee; }
 #files{padding:10px}
 .item{padding:5px;cursor:pointer;border-radius:6px}
 .item:hover{background:#eee}
@@ -43,34 +41,35 @@ body{font-family:sans-serif;margin:0;padding:0}
 <div id="files"></div>
 
 <script>
+// Funzione per creare gli oggetti con parent
+function createFolder(name, parent, protectedFlag=false){
+  let folder = {name, type:"folder", children:[], parent};
+  if(protectedFlag) folder.protected = true;
+  return folder;
+}
+
+function createFile(name, parent){
+  return {name, type:"file", parent};
+}
+
 // Disco virtuale
-let disk = {
-  name:"Disco",
-  type:"folder",
-  protected:true,
-  children:[
-    { name:"System", type:"folder", protected:true, children:[ {name:"window.js", type:"file"} ] },
-    { name:"Apps", type:"folder", children:[
-        {name:"browser.html",type:"file"},
-        {name:"calculator.html",type:"file"},
-        {name:"clock.html",type:"file"},
-        {name:"dice.html",type:"file"},
-        {name:"files.html",type:"file"},
-        {name:"music.html",type:"file"},
-        {name:"notes.html",type:"file"},
-        {name:"paint.html",type:"file"},
-        {name:"settings.html",type:"file"},
-        {name:"terminal.html",type:"file"}
-    ] }
-  ]
-};
+let disk = createFolder("Disco", null, true);
+
+let systemFolder = createFolder("System", disk, true);
+systemFolder.children.push(createFile("window.js", systemFolder));
+
+let appsFolder = createFolder("Apps", disk);
+["browser.html","calculator.html","clock.html","dice.html","files.html","music.html","notes.html","paint.html","settings.html","terminal.html"]
+.forEach(f => appsFolder.children.push(createFile(f, appsFolder)));
+
+disk.children = [systemFolder, appsFolder];
 
 let current = disk;
 let selected = null;
 let history = [];
 
 // Funzione di rendering
-function render() {
+function render(){
   const container = document.getElementById("files");
   container.innerHTML = "";
   document.getElementById("path").textContent = "/" + history.map(f=>f.name).join("/") + (history.length>0?"/":"") + current.name;
@@ -104,33 +103,48 @@ function render() {
   });
 }
 
+// Funzione protezione ricorsiva: tutto dentro System è protetto
+function isProtected(item){
+  if(item.protected) return true;
+  let p = item.parent;
+  while(p){
+    if(p.name==="System" && p.type==="folder") return true;
+    p = p.parent;
+  }
+  return false;
+}
+
 // Funzioni gestione
 function newFolder(){ 
-  let name = prompt("Nome cartella:");
+  let name = prompt("Nome cartella:"); 
   if(!name) return; 
-  current.children.push({name,type:"folder",children:[]}); 
+  current.children.push(createFolder(name, current)); 
   render(); 
 }
+
 function newFile(){ 
-  let name = prompt("Nome file:");
+  let name = prompt("Nome file:"); 
   if(!name) return; 
-  current.children.push({name,type:"file"}); 
+  current.children.push(createFile(name, current)); 
   render(); 
 }
+
 function renameItem(){ 
   if(!selected) return alert("Seleziona file o cartella"); 
-  if(selected.protected) return alert("Protetto!"); 
+  if(isProtected(selected)) return alert("Protetto!");
   let n = prompt("Nuovo nome:",selected.name); 
   if(n) selected.name=n; 
   render(); 
 }
+
 function deleteItem(){ 
   if(!selected) return alert("Seleziona file o cartella"); 
-  if(selected.protected) return alert("Protetto!"); 
-  current.children=current.children.filter(i=>i!==selected); 
+  if(isProtected(selected)) return alert("Protetto!");
+  current.children = current.children.filter(i=>i!==selected); 
   selected=null; 
   render(); 
 }
+
 function goBack(){
   if(history.length>0){
     current = history.pop();
@@ -140,21 +154,6 @@ function goBack(){
     alert("Sei già alla radice del disco!");
   }
 }
-
-
-  function isProtected(item) {
-  // Se l’item stesso è protetto
-  if(item.protected) return true;
-
-  // Controlla ricorsivamente se l’item è dentro System
-  let parent = current;
-  while(parent && parent !== disk){
-    if(parent.name === "System" && parent.type==="folder") return true;
-    parent = parent.parent; // vedremo dopo come collegare i parent
-  }
-
-  return false;
-  }
 
 // Torna indietro con Backspace
 document.body.onkeydown = e=>{
