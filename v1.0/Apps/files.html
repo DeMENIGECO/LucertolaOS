@@ -38,27 +38,29 @@ children:[
 ]
 },
 {
-name:"Apps",
-type:"folder",
-children:[
-{name:"browser.html",type:"file"},
-{name:"calculator.html",type:"file"},
-{name:"clock.html",type:"file"}
-{name:"dice.html",type:"file"}
-{name:"files.html",type:"file"}
-{name:"music.html",type:"file"}
-{name:"notes.html",type:"file"}
-{name:"paint.html",type:"file"}
-{name:"settings.html",type:"file"}
-{name:"terminal.html",type:"file"}
-]
+
 }
 ]
 };
 
 let current=disk;
 let selected=null;
-let history=[];
+let his{
+name:"Apps",
+type:"folder",
+children:[
+{name:"browser.html",type:"file"},
+{name:"calculator.html",type:"file"},
+{name:"clock.html",type:"file"},
+{name:"dice.html",type:"file"},
+{name:"files.html",type:"file"},
+{name:"music.html",type:"file"},
+{name:"notes.html",type:"file"},
+{name:"paint.html",type:"file"},
+{name:"settings.html",type:"file"},
+{name:"terminal.html",type:"file"}
+]
+}
 
 function render(){
 files.innerHTML="";
