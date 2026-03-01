@@ -58,6 +58,34 @@ footer {
   font-size:0.85rem;
   opacity:0.7;
 }
+
+  /* Campo di testo LucertolaOS-style */
+.input-lucertolaos {
+  width: 250px;                /* larghezza */
+  padding: 10px 15px;          /* padding interno */
+  font-size: 1rem;             /* dimensione del testo */
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: #1e3c72;              /* testo scuro */
+  background: rgba(255, 255, 255, 0.2); /* sfondo traslucido */
+  backdrop-filter: blur(10px);  /* effetto sfocatura dietro */
+  border: 2px solid rgba(255, 255, 255, 0.3); /* bordo leggero */
+  border-radius: 12px;         /* arrotondamento */
+  outline: none;               /* rimuove outline di default */
+  transition: all 0.25s ease;  /* animazione al focus */
+}
+
+/* Effetto hover */
+.input-lucertolaos:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Effetto focus */
+.input-lucertolaos:focus {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: #ffb703;
+  box-shadow: 0 0 10px rgba(255, 183, 3, 0.6);
+}
 </style>
 </head>
 <body>
@@ -70,6 +98,7 @@ footer {
   Puoi testare il sistema online oppure scaricare l’intero pacchetto ZIP.
 </div>
 
+<input type="text" class="input-lucertolaos" placeholder="Codice attivazione" />  
 <button id="downloadBtn" onclick="downloadZIP()">⬇ Scarica ZIP</button>
 
 <footer>
