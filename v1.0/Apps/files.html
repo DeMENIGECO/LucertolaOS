@@ -15,6 +15,7 @@ body{font-family:sans-serif;margin:0;padding:0}
 <body>
 
 <div id="bar">
+<button onclick="goBack()">⬅ Indietro</button>
 <button onclick="newFolder()">Nuova Cartella</button>
 <button onclick="newFile()">Nuovo File</button>
 <button onclick="renameItem()">Rinomina</button>
@@ -95,7 +96,16 @@ function newFolder(){ let name=prompt("Nome cartella:"); if(!name) return; curre
 function newFile(){ let name=prompt("Nome file:"); if(!name) return; current.children.push({name,type:"file"}); render(); }
 function renameItem(){ if(!selected) return alert("Seleziona file"); if(selected.protected) return alert("Protetto!"); let n=prompt("Nuovo nome:",selected.name); if(n) selected.name=n; render(); }
 function deleteItem(){ if(!selected) return alert("Seleziona file"); if(selected.protected) return alert("Protetto!"); current.children=current.children.filter(i=>i!==selected); selected=null; render(); }
-
+function goBack(){
+  if(history.length>0){
+    current = history.pop();
+    selected = null;
+    render();
+  } else {
+    alert("Sei già alla radice del disco!");
+  }
+      }
+  
 // Torna indietro con Backspace
 document.body.onkeydown = e=>{
   if(e.key==="Backspace" && history.length){
