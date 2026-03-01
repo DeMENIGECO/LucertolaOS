@@ -41,7 +41,7 @@ body{font-family:sans-serif;margin:0;padding:0}
 <div id="files"></div>
 
 <script>
-// Funzione per creare gli oggetti con parent
+// Funzioni di creazione
 function createFolder(name, parent, protectedFlag=false){
   let folder = {name, type:"folder", children:[], parent};
   if(protectedFlag) folder.protected = true;
@@ -50,6 +50,15 @@ function createFolder(name, parent, protectedFlag=false){
 
 function createFile(name, parent){
   return {name, type:"file", parent};
+}
+
+// Funzione ricorsiva per assegnare parent a tutti i figli
+function assignParentRecursively(folder){
+  if(!folder.children) return;
+  folder.children.forEach(child => {
+    child.parent = folder;
+    if(child.type==="folder") assignParentRecursively(child);
+  });
 }
 
 // Disco virtuale
@@ -63,6 +72,9 @@ let appsFolder = createFolder("Apps", disk);
 .forEach(f => appsFolder.children.push(createFile(f, appsFolder)));
 
 disk.children = [systemFolder, appsFolder];
+
+// assegna parent a tutti ricorsivamente
+assignParentRecursively(disk);
 
 let current = disk;
 let selected = null;
@@ -103,7 +115,7 @@ function render(){
   });
 }
 
-// Funzione protezione ricorsiva: tutto dentro System è protetto
+// Funzione protezione ricorsiva
 function isProtected(item){
   if(item.protected) return true;
   let p = item.parent;
@@ -118,14 +130,16 @@ function isProtected(item){
 function newFolder(){ 
   let name = prompt("Nome cartella:"); 
   if(!name) return; 
-  current.children.push(createFolder(name, current)); 
+  let f = createFolder(name, current); 
+  current.children.push(f);
   render(); 
 }
 
 function newFile(){ 
   let name = prompt("Nome file:"); 
   if(!name) return; 
-  current.children.push(createFile(name, current)); 
+  let f = createFile(name, current); 
+  current.children.push(f); 
   render(); 
 }
 
