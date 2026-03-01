@@ -141,6 +141,21 @@ function goBack(){
   }
 }
 
+
+  function isProtected(item) {
+  // Se l’item stesso è protetto
+  if(item.protected) return true;
+
+  // Controlla ricorsivamente se l’item è dentro System
+  let parent = current;
+  while(parent && parent !== disk){
+    if(parent.name === "System" && parent.type==="folder") return true;
+    parent = parent.parent; // vedremo dopo come collegare i parent
+  }
+
+  return false;
+  }
+
 // Torna indietro con Backspace
 document.body.onkeydown = e=>{
   if(e.key==="Backspace" && history.length){
