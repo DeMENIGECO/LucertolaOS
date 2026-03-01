@@ -67,6 +67,7 @@ button:hover {
   padding:10px 15px;
   border-radius:10px;
   word-break: break-all;
+  min-height:1.5em;
 }
 </style>
 </head>
@@ -97,19 +98,25 @@ button:hover {
 function generateCode() {
   const version = document.getElementById('version').value;
   const type = document.getElementById('type').value;
+  const output = document.getElementById('codeOutput');
 
-  // Funzione per generare stringa casuale
-  function randomString(length) {
-    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for(let i=0;i<length;i++){
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
+  // Mostra stato di elaborazione
+  output.textContent = "Elaborazione...";
+  
+  setTimeout(() => {
+    // Funzione per generare stringa casuale
+    function randomString(length) {
+      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = '';
+      for(let i=0;i<length;i++){
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
     }
-    return result;
-  }
 
-  const code = randomString(12) + '_' + randomString(8);
-  document.getElementById('codeOutput').textContent = `Versione: ${version} | Tipo: ${type} → Codice: ${code}`;
+    const code = randomString(12) + '_' + randomString(8);
+    output.textContent = `Versione: ${version} | Tipo: ${type} → Codice: ${code}`;
+  }, 1500); // attende 1.5 secondi prima di mostrare il codice
 }
 </script>
 
