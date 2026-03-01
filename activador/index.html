@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Generatore di Codici LucertolaOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  margin:0;
+  font-family:"Inter", "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  color:white;
+}
+h1 {
+  font-size:2.5rem;
+  margin-bottom:20px;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.4);
+  text-align:center;
+}
+.container {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  padding:30px 40px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+label {
+  display:block;
+  margin-top:15px;
+  font-weight:600;
+  font-size:1rem;
+}
+select {
+  margin-top:8px;
+  padding:6px 10px;
+  border-radius:8px;
+  border:none;
+  font-size:1rem;
+}
+button {
+  margin-top:20px;
+  padding:10px 20px;
+  font-size:1rem;
+  border:none;
+  border-radius:10px;
+  background:#ffb703;
+  color:#1e3c72;
+  font-weight:600;
+  cursor:pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+#codeOutput {
+  margin-top:20px;
+  font-size:1.2rem;
+  font-weight:bold;
+  background: rgba(255,255,255,0.1);
+  padding:10px 15px;
+  border-radius:10px;
+  word-break: break-all;
+}
+</style>
+</head>
+<body>
+
+<h1>Generatore di Codici LucertolaOS</h1>
+
+<div class="container">
+  <label for="version">Seleziona versione:</label>
+  <select id="version">
+    <option value="1.0">1.0</option>
+  </select>
+
+  <label for="type">Seleziona tipo:</label>
+  <select id="type">
+    <option value="standard">Standard</option>
+    <option value="pro">Pro</option>
+    <option value="home">Home</option>
+    <option value="school">School</option>
+  </select>
+
+  <button onclick="generateCode()">Genera Codice</button>
+
+  <div id="codeOutput"></div>
+</div>
+
+<script>
+function generateCode() {
+  const version = document.getElementById('version').value;
+  const type = document.getElementById('type').value;
+
+  // Funzione per generare stringa casuale
+  function randomString(length) {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for(let i=0;i<length;i++){
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
+
+  const code = randomString(12) + '_' + randomString(8);
+  document.getElementById('codeOutput').textContent = `Versione: ${version} | Tipo: ${type} → Codice: ${code}`;
+}
+</script>
+
+</body>
+</html>
