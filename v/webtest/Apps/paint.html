@@ -1,0 +1,14 @@
+<canvas id="c" width="500" height="300" style="border:1px solid black"></canvas>
+
+<script>
+let ctx=c.getContext("2d");
+let draw=false;
+
+c.onmousedown=()=>draw=true;
+c.onmouseup=()=>draw=false;
+c.onmousemove=e=>{
+if(draw){
+ctx.fillRect(e.offsetX,e.offsetY,3,3);
+}
+}
+</script>
