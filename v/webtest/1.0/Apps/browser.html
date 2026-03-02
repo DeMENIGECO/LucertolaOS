@@ -1,0 +1,9 @@
+<input id="url" placeholder="https://example.com" style="width:100%">
+<iframe id="view" style="width:100%;height:90%"></iframe>
+
+<script>
+url.addEventListener("keydown",e=>{
+if(e.key==="Enter")
+view.src=url.value;
+});
+</script>

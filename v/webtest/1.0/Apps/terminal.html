@@ -1,0 +1,14 @@
+<body style="background:black;color:#0f0;font-family:monospace">
+<h3>Lucertola Terminal</h3>
+<input id="cmd" autofocus style="width:100%;background:black;color:#0f0;border:none">
+
+<script>
+cmd.addEventListener("keydown",e=>{
+if(e.key==="Enter"){
+document.body.innerHTML += "<div>> "+cmd.value+"</div>";
+cmd.value="";
+window.scrollTo(0,document.body.scrollHeight);
+}
+});
+</script>
+</body>
