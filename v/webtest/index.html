@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Webtest</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI, sans-serif;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.container{
+  display:flex;
+  gap:25px;
+}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  padding:25px;
+  width:200px;
+  text-align:center;
+  cursor:pointer;
+  transition:0.25s;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  color:white;
+}
+
+/* Hover */
+.card:hover{
+  transform:translateY(-8px) scale(1.04);
+  box-shadow:0 15px 35px rgba(0,0,0,0.5);
+}
+
+/* Click effect */
+.card:active{
+  transform:scale(0.97);
+}
+
+/* Titolo */
+.card h2{
+  margin:0;
+  font-size:1.4rem;
+}
+
+/* Testo */
+.card p{
+  margin-top:10px;
+  font-size:.95rem;
+  opacity:.9;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="card" onclick="openPage('1.0')">
+<h2>Versione 1.0</h2>
+<p>Clicca per testare</p>
+</div>
+
+</div>
+
+<script>
+function openPage(page){
+ window.location.href = `https://demenigeco.github.io/LucertolaOS/v/webtest/${page}/`
+}
+</script>
+
+</body>
+</html>
